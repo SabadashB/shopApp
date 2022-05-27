@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Кошик";
+    Layout = "_MainLayout";
+
+}
+<div class="eco--pd--100">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="eco--sec--title eco--small text-center">
+                    <span>Welcome to</span>
+                    <h1>Basket</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (ViewBag.cart.Count < 1)
+                {
+                    <div class="eco--desc">Корзина пуста</div>
+                }
+                else
+                {
+                    <div class="eco--inner">
+                        <ul class="eco--specification--list--1 eco--mt100">
+                            <li>
+                                @foreach (var item in ViewBag.cart)
+                                {
+                                    <div class="eco--title">@item.Product.Name</div>
+                                    <div class="eco--desc">
+                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                                        Кількість
+                                        <button onclick="Decrease(@item.Product.Id)">-</button> <span id="number">@item.Quantity</span>
+                                        <button onclick="Increase(@item.Product.Id)">+</button>
+                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                                        Ціна @item.Product.Price
+                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                                        Сума @(item.Product.Price * item.Quantity)
+                                    </div>
+                                }
+                            </li>
+                            <div class="text-center eco--mt50">
+                                @if (ViewBag.cart.Count > 0)
+                                {
+                                    <a class="eco--btn" asp-controller="Cart" asp-action="Order">Оформити замовлення</a>
+                                }
+                                <a class="eco--btn" asp-action="Index" asp-controller="Product">Повернутися до покупок</a>
+                            </div>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+</div>
+
+
+
+<div id="cart-table-res">
+    @if (ViewBag.cart.Count < 1)
+    {
+        <p>Корзина пуста</p>
+    }
+    else
+    {
+        <table id="cart-res" class="table">
+            <tr>
+                <th>Товар</th>
+                <th>Кол-во</th>
+                <th>Цена</th>
+                <th>Сумма</th>
+
+            </tr>
+            @foreach (var item in ViewBag.cart)
+            {
+                <tr id=@item.Product.Id>
+
+                    <td>
+                        <img alt="product" src="@item.Product.Image" width="60" /> <br />
+                        @item.Product.Name
+                    </td>
+                    <td>
+                        <button onclick="Decrease(@item.Product.Id)">-</button> <span id="number">@item.Quantity</span>
+                        <button onclick="Increase(@item.Product.Id)">+</button>
+                    </td>
+                    <td>@item.Product.Price</td>
+                    <td>@(item.Product.Price * item.Quantity)</td>
+                </tr>
+            }
+            <tr>
+                <td>Итого</td>
+                <td></td>
+                <td></td>
+                <td>
+                    @ViewBag.total
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+    
+    
+
+
+    
+
+
+
+@section Scripts
+{
+
+    <script>
+    function currentState() {
+        $.ajax
+         ({
+             type: 'get',
+             url:  '@Url.Action("CartState", "Cart")',
+              success: function (res)
+               {
+                 if(res>0)
+                    { $('#my-cart').html(res).addClass("red-number"); }
+                 else{ $('#my-cart').empty().removeClass("red-number"); }
+               }
+         });
+    }
+    </script>
+    <script>
+       function Decrease(prop)
+          {
+            let result = $.ajax({
+              type: "GET",
+              url:  '@Url.Action("Remove", "Cart")?id=' +prop,
+              async: false }).responseText;                                                 
+              $("#cart-table-res").html(result);
+               currentState();
+          }
+    </script>
+    <script>
+           function Increase(prop)
+              {
+                let result = $.ajax({
+                  type: "GET",
+                    url:  '@Url.Action("AddToCart", "Cart")?id=' +prop,
+                      async: false
+                        }).responseText;          
+                         $("#cart-table-res").html(result);
+                         currentState();
+              }
+        </script>
+}

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewBag.Title = "Замовлення";
+    Layout = "_MainLayout";
+}
+<h2> История заказов</h2>
+@{
+    
+    if (@Model != null)
+    {
+        <table class="table">
+            <tr>
+                <th>Id заказа</th> 
+                <th>Товар</th>
+                <th>Клиент</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+                <th>Сумма</th>
+                <th>Кол-во</th>
+                <th>Дата заказа</th>
+            </tr>
+            @foreach (var t in @Model)
+            {
+                <tr>
+                    <td>@t.Id</td> 
+                    <td>@t.Product.Name</td> 
+                    <td>@t.CustomerName</td>
+                    <td>@t.PhoneNumber</td>
+                    <td>@t.Address</td>  
+          
+                    <td>@t.Product.Price</td>
+                    <td>@t.Quantity</td>
+                    <td>@t.Date.ToShortDateString()</td>
+            
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>
+            Список пуст
+        </p>
+    }
+}
+
