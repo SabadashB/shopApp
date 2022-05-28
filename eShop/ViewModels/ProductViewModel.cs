@@ -17,7 +17,6 @@ namespace eShop.ViewModels
         public decimal Price { get; set; }
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
-        //public int CategoryId { get; set; }
         public IFormFile File { get; set; }
     }
 }

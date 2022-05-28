@@ -49,7 +49,7 @@
                             <nav class="eco--main--menu">
                                 <ul>
                                     <li class="current-menu-item"><a asp-action="Index" asp-controller="Product">Головна</a></li>
-                                    <li><a href="#">Books</a></li>
+                                    <li><a asp-action="Books" asp-controller="Product">Книги</a></li>
                                     <li><a href="#about">Про нас</a></li>
                                     <li><a href="#contact">Контакти</a></li>
                                     @if (User.IsInRole("admin"))
@@ -78,12 +78,12 @@
                             <div class="eco--header--btn text-right">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <a class="eco--btn" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    <a class="eco--btn" asp-controller="Account" asp-action="Logout">Вийти</a>
                                     <a asp-action="Index" asp-controller="Cart"><img alt="Корзина" src="~/images/shoping-cart.png" /><span id="my-cart"></span></a>
                                 }
                                 @if (!User.Identity.IsAuthenticated)
                                 {
-                                    <a class="eco--btn" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="eco--btn" asp-controller="Account" asp-action="Login">Увійти</a>
                                 }
 
 

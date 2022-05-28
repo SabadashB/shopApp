@@ -12,7 +12,7 @@ namespace eShop.Controllers
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
         }
-        
+
         [AcceptVerbs("GET", "POST")]
         public bool CheckPrice(decimal price)
         {

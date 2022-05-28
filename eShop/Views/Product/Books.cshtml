@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Product>
+
+@{ ViewBag.Title = "Продукція";
+    Layout = "_MainLayout"; }
+
+
+<div class="eco--pd--100">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="eco--sec--title eco--small text-center">
+                <span>Усі</span>
+                <h1>Книги</h1>
+            </div>
+        </div>
+    </div>
+    <div class="eco--pd--100">
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="text-center">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <h2>Для замовлення необхідно увійти до особистого кабінету!</h2><br />
+                        <a class="eco--btn" asp-controller="Account" asp-action="Login">Увійти</a>
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a class="eco--btn eco--mb50" asp-controller="Product" asp-action="Add">Додати книгу</a>
+                    }
+                </div>
+                @foreach (var p in @Model)
+                {
+                    <div class="col-sm-3 text-center">
+                        <a asp-action="Detail" asp-route-id="@p.Id">
+                            <h3>@p.Name</h3>
+                            <img class="card-img-top " src="@p.Image" alt="">
+                            <h4>@p.ShortDesc</h4>
+                            <h4>@p.Price UAH</h4>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!--
+                                <a class="eco--btn" onclick="addCart(@p.Id)">Додати в кошик</a>
+                                -->
+                                <a asp-action="Detail" asp-route-id="@p.Id" class="eco--btn">Подивитися</a>
+                            }
+                            <!--
+                            @if (User.IsInRole("admin"))
+                            {
+                                <div>
+                                    <br />
+                                    <a class="eco--btn" asp-action="Edit" asp-controller="Product" asp-route-id="@p.Id">Редактировать</a>
+                                    
+                                    <button class="eco--btn" data-toggle="modal" data-target="#delete-@p.Id">Удалить</button>
+                                </div>
+                            }
+                            -->
+                        </a>
+                    </div>
+                    <!-- Modal for delete confirm -->
+                    <div class="modal fade" id="delete-@p.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Ви дійсно хочете видалити книгу?</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer text-center">
+                                    <form asp-controller="Product" asp-action="Delete" asp-route-id="@p.Id" method="post">
+                                        <input type="submit" class="btn btn-danger" value="Видалити" />
+                                    </form>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Закрити</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+      function addCart(prop)
+      {
+
+         $.ajax
+         ({
+           type: 'get',
+           url:  '@Url.Action("AddToCart", "Cart")?id=' +prop,
+           success: function ()
+            {
+              $.ajax
+                 ({
+                     type: 'get',
+                     url:  '@Url.Action("CartState", "Cart")',
+                     success: function (res)
+                     {
+                         console.log("res",res);
+                         if(res>0)
+                         {
+                             $('#my-cart').html(res).addClass("red-number");
+
+                         }
+                         else{
+                             $('#my-cart').empty().removeClass("red-number");
+                         }
+
+                     }
+                 });
+            }
+         })
+      }
+
+</script>

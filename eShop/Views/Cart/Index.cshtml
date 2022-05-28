@@ -3,105 +3,78 @@
     Layout = "_MainLayout";
 
 }
-<div class="eco--pd--100">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="eco--sec--title eco--small text-center">
-                    <span>Welcome to</span>
-                    <h1>Basket</h1>
-                </div>
+
+<div id="cart-table-res" class="eco--pd--100">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="eco--sec--title eco--small text-center">
+                <span>Ваш</span>
+                <h1>Кошик</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                @if (ViewBag.cart.Count < 1)
-                {
-                    <div class="eco--desc">Корзина пуста</div>
-                }
-                else
-                {
-                    <div class="eco--inner">
-                        <ul class="eco--specification--list--1 eco--mt100">
-                            <li>
-                                @foreach (var item in ViewBag.cart)
-                                {
-                                    <div class="eco--title">@item.Product.Name</div>
-                                    <div class="eco--desc">
-                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                                        Кількість
-                                        <button onclick="Decrease(@item.Product.Id)">-</button> <span id="number">@item.Quantity</span>
-                                        <button onclick="Increase(@item.Product.Id)">+</button>
-                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                                        Ціна @item.Product.Price
-                                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                                        Сума @(item.Product.Price * item.Quantity)
-                                    </div>
-                                }
-                            </li>
-                            <div class="text-center eco--mt50">
-                                @if (ViewBag.cart.Count > 0)
-                                {
-                                    <a class="eco--btn" asp-controller="Cart" asp-action="Order">Оформити замовлення</a>
-                                }
-                                <a class="eco--btn" asp-action="Index" asp-controller="Product">Повернутися до покупок</a>
-                            </div>
-                        </ul>
-                    </div>
-                }
-            </div>
-        </div>
-</div>
-
-
-
-<div id="cart-table-res">
-    @if (ViewBag.cart.Count < 1)
-    {
-        <p>Корзина пуста</p>
-    }
-    else
-    {
-        <table id="cart-res" class="table">
-            <tr>
-                <th>Товар</th>
-                <th>Кол-во</th>
-                <th>Цена</th>
-                <th>Сумма</th>
-
-            </tr>
-            @foreach (var item in ViewBag.cart)
+    </div>
+    <div class="row eco--pd--100">
+        <div class="col-md-10 col-md-offset-1">
+            @if (ViewBag.cart.Count < 1)
             {
-                <tr id=@item.Product.Id>
-
-                    <td>
-                        <img alt="product" src="@item.Product.Image" width="60" /> <br />
-                        @item.Product.Name
-                    </td>
-                    <td>
-                        <button onclick="Decrease(@item.Product.Id)">-</button> <span id="number">@item.Quantity</span>
-                        <button onclick="Increase(@item.Product.Id)">+</button>
-                    </td>
-                    <td>@item.Product.Price</td>
-                    <td>@(item.Product.Price * item.Quantity)</td>
-                </tr>
+                <div class="text-center">
+                    <h2>Нажаль кошик порожній</h2><br />
+                    <a class="eco--btn" asp-action="Books" asp-controller="Product">Перейти до книжок</a>
+                </div>
             }
-            <tr>
-                <td>Итого</td>
-                <td></td>
-                <td></td>
-                <td>
-                    @ViewBag.total
-                </td>
-            </tr>
-        </table>
-    }
+            else
+            {
+                <table id="cart-res" class="table">
+                    <tr>
+                        <th class="eco--title"><h2>Книга</h2></th>
+                        <th><h2>Кількість</h2></th>
+                        <th><h2>Ціна</h2></th>
+                        <th><h2>Сума</h2></th>
+
+                    </tr>
+                    @foreach (var item in ViewBag.cart)
+                    {
+                        <tr id=@item.Product.Id>
+
+                            <td>
+                                <img alt="product" src="@item.Product.Image" width="60" /> &nbsp &nbsp &nbsp
+                                @item.Product.Name
+                            </td>
+                            <td>
+                                <a onclick="Decrease(@item.Product.Id)"><img src="~/images/minus.png" alt=""></a> <span id="number">@item.Quantity</span>
+                                <a onclick="Increase(@item.Product.Id)"><img src="~/images/plus.png" alt=""></a>
+                            </td>
+                            <td>@item.Product.Price UAH</td>
+                            <td>@(item.Product.Price * item.Quantity) UAH</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>Разом до сплати</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @ViewBag.total UAH
+                        </td>
+                    </tr>
+
+                </table>
+                <div class="text-center eco--mt50">
+                    <a class="eco--btn" asp-action="Books" asp-controller="Product">Повернутися до книжок</a>
+                    @if (ViewBag.cart.Count > 0)
+                    {
+                        <a class="eco--btn" asp-controller="Cart" asp-action="Order">Оформити замовлення</a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
-    
-    
 
 
-    
+
+
+
 
 
 
@@ -129,9 +102,10 @@
             let result = $.ajax({
               type: "GET",
               url:  '@Url.Action("Remove", "Cart")?id=' +prop,
-              async: false }).responseText;                                                 
+              async: false }).responseText;
               $("#cart-table-res").html(result);
-               currentState();
+           currentState();
+           window.location.reload();
           }
     </script>
     <script>
@@ -141,9 +115,10 @@
                   type: "GET",
                     url:  '@Url.Action("AddToCart", "Cart")?id=' +prop,
                       async: false
-                        }).responseText;          
+                        }).responseText;
                          $("#cart-table-res").html(result);
-                         currentState();
+               currentState();
+               window.location.reload();
               }
-        </script>
+    </script>
 }

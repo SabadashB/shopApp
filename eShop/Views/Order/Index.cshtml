@@ -4,21 +4,28 @@
     ViewBag.Title = "Замовлення";
     Layout = "_MainLayout";
 }
-<h2> История заказов</h2>
+<div class="row eco--pd--100">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="eco--sec--title eco--small text-center">
+            <span>Усі</span>
+            <h1>Замовлення</h1>
+        </div>
+    </div>
+</div>
 @{
     
     if (@Model != null)
     {
         <table class="table">
             <tr>
-                <th>Id заказа</th> 
-                <th>Товар</th>
-                <th>Клиент</th>
-                <th>Телефон</th>
-                <th>Адрес</th>
-                <th>Сумма</th>
-                <th>Кол-во</th>
-                <th>Дата заказа</th>
+                <th><h4>Id замовлення</h4></th> 
+                <th><h4>Книга</h4></th>
+                <th><h4>Кліент</h4></th>
+                <th><h4>Телефон</h4></th>
+                <th><h4>Адреса</h4></th>
+                <th><h4>Сума</h4></th>
+                <th><h4>Кількість</h4></th>
+                <th><h4>Дата замовлення</h4></th>
             </tr>
             @foreach (var t in @Model)
             {
@@ -29,7 +36,7 @@
                     <td>@t.PhoneNumber</td>
                     <td>@t.Address</td>  
           
-                    <td>@t.Product.Price</td>
+                    <td>@t.Product.Price UAH</td>
                     <td>@t.Quantity</td>
                     <td>@t.Date.ToShortDateString()</td>
             

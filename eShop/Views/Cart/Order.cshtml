@@ -2,78 +2,59 @@
 
 @{
     ViewBag.Title = "Оформити замовлення";
-    Layout = "_MainLayout";
+    Layout = "_LoginLayout";
 }
 
-<div class="row justify-content pt-3">
-       @if (ViewBag.Cart == null || ViewBag.Cart.Count == 0)
-       {
-           <h3> Товары не выбраны</h3><br/>
-           <a asp-action="Index" asp-controller="Product"> Перейти к покупкам </a>
-       }
-       else
-       {
-            <div class="col ">
-                   <div class="box-shadow p-5">
-                       <h2>Выбранные товары</h2>
-                       @foreach (var item in ViewBag.Cart)
-                       {
-                           <p> @item.Product.Name X @item.Quantity шт</p>
-                           <img alt="product" src="~/@item.Product.Image" width="100"/>
-                           <p>@(item.Product.Price * item.Quantity) UAH</p>
-                       }
-                       <h4>Сумма к оплате: @ViewBag.Total тг</h4>
-                   </div>
-           
-               </div>
-               <div class="col-md-auto">
-           
-               </div>
-               <div class="col-6">
-                   <div class=" box-shadow p-5">
-                       
-                       <h2>Оформить заказ</h2>
-                       <form asp-action="Order" asp-controller="Cart">
-                           <div class="form-group">
-                               <label >ФИО</label>
-                               <input asp-for="CustomerName" type="text" class="form-control" placeholder="ФИО">
-                               <span asp-validation-for="CustomerName"></span>
-                           </div>
-                           <div class="form-group">
-                               <label >Адрес доставки</label>
-                               <input asp-for="Address" type="text" class="form-control" placeholder="Адрес">
-                               <span asp-validation-for="Address"></span>
-                           </div>
-                           <div class="form-group">
-                               <label >Телефон</label>
-                               <input asp-for="PhoneNumber" id="phone-mask" type="text" class="form-control" placeholder="Телефон">
-                               <span asp-validation-for="PhoneNumber"></span>
-                           </div>
-                           <div class="form-group">
-                               <label >Сумма к оплате</label>
-                               <h4>@ViewBag.Total тг</h4>
-                           </div>
-           
-           
-                           <button type="submit" class="btn btn-primary">Оформить</button>
-                       </form>
-                   </div>
-           
-               </div>
-       }
-   
+<div class="row">
+    @if (ViewBag.Cart == null || ViewBag.Cart.Count == 0)
+    {
+        <div class="col-md-5 eco--home--height--1">
+            <div class="eco--home--content--3">
+                <div class="eco--sec--title--white eco--small">
+                    <h1>Нажаль відсутні<br>книги для замовлення</h1>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+            <div class="col-md-5 eco--home--height--1">
+                <div class="eco--home--content--3">
+                    @foreach (var item in ViewBag.Cart)
+                    {
+                        <div class="eco--sec--title--white eco--small">
+                            <h1>@item.Product.Name</h1>
+                            <span>У кількості - @item.Quantity шт, ціна - @(item.Product.Price * item.Quantity) UAH</span>
+                        </div>
+                    }
+                    <h1>Усього до сплати <br> @ViewBag.Total UAH</h1>
+                </div>
+            </div>
+    <div class="col-md-6 col-md-offset-1 eco--home--height--1">
+            <form asp-action="Order" asp-controller="Cart" class="eco--mc--form2">
+                <div class="eoc--home--form ">
+                    <h3>Оформити замовлення</h3>
+                    <div class="form-group row">
+                        <input asp-for="CustomerName" type="text" class="form-control" placeholder="Прізвище Ім'я По батькові">
+                        <span asp-validation-for="CustomerName"></span>
+                    </div>
+                    <div class="form-group row">
+                        <input asp-for="Address" type="text" class="form-control" placeholder="Адреса">
+                        <span asp-validation-for="Address"></span>
+                    </div>
+                    <div class="form-group row">
+                        <input asp-for="PhoneNumber" id="phone-mask" type="text" class="form-control" placeholder="Телефон">
+                        <span asp-validation-for="PhoneNumber"></span>
+                    </div>
+                    <button type="submit">Замовити</button>
+                </div>
+            </form>
+        </div>
+    }
 </div>
 
 @section Scripts{
     @{
         await  Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-      const element = document.getElementById('phone-mask');
-      const maskOptions = {
-        mask: '+{7}(700)000-00-00'
-      };
-      const mask = IMask(element, maskOptions);
-    </script>
-  
 }

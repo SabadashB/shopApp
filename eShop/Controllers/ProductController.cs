@@ -33,6 +33,12 @@ namespace eShop.Controllers
         }
 
         [HttpGet]
+        public IActionResult Books()
+        {
+            return View(_db.Products);
+        }
+
+        [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
@@ -58,16 +64,36 @@ namespace eShop.Controllers
                 product.Price = model.Price;
                 product.ShortDesc = model.ShortDesc;
                 product.LongDesc = model.LongDesc;
-                /*product.CategoryId = model.CategoryId;*/
 
                 await _db.Products.AddAsync(product);
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Books");
             }
 
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Edit(int id)
+        {
+            Product product = _db.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            ProductViewModel model = new ProductViewModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                ShortDesc = product.ShortDesc,
+                LongDesc = product.LongDesc
+            };
+
+
+            return View(model);
+        }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
@@ -93,7 +119,7 @@ namespace eShop.Controllers
 
                 _db.Attach(product).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Books");
             }
 
             return View(model);
@@ -122,7 +148,7 @@ namespace eShop.Controllers
             }
             _db.Entry(product).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Books");
         }
 
 
