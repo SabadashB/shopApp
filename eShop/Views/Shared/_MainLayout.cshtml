@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - BookStore</title>
+    <!--ALL CSS FILES-->
+    <link rel="shortcut icon" href="~/images/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/slick.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/magnific.pupup.css">
+    <link rel="stylesheet" href="~/css/sweet.alert.css">
+    <link rel="stylesheet" href="~/css/slicknav.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+
+<body>
+
+    <!--PRELOADER SECTION-->
+    <div class="preloader">
+        <div class="inner text-center">
+            <span class="preloader-spin"></span>
+        </div>
+    </div>
+    <!-- /END OF PRELOADER SECTION -->
+
+    <div class="site_wrap">
+        <!--HEADER SECTION-->
+        <div class="eco--header--wraper eco--header--2 eco--white--style">
+            <div class="eco--header--top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="eco--logo">
+                                <a asp-action="Index" asp-controller="Product">BookStore</a>
+                            </div>
+                        </div>
+                        <div class="col-md-10 eco--menu--column--1 eco--menu--col">
+                            <nav class="eco--main--menu">
+                                <ul>
+                                    <li class="current-menu-item"><a asp-action="Index" asp-controller="Product">Головна</a></li>
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <li><a asp-action="Index" asp-controller="Order">Замовлення</a></li>
+                                    }
+                                </ul>
+                            </nav>
+
+                            <div class="eco--header--btn text-right">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="eco--btn" asp-controller="Account" asp-action="Logout">Вийти</a>
+                                    <a asp-action="Index" asp-controller="Cart"><img alt="Корзина" src="~/images/shoping-cart.png" /><span id="my-cart"></span></a>
+                                }
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                            <a class="eco--btn" asp-controller="Account" asp-action="Login">Увійти</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /END OF HEADER TOP -->
+        </div>
+        <!-- /END OF HEADER WRAPPER -->
+        <!--PREVIEW SECTION-->
+        <div class="preview_area bg-cover" style="background-image: url(/images/books.jpg)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="text-center">
+                            <div class="eco--sec--title--white">
+                                <span>we are awesome</span>
+                                <h1>BookStore</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /END OF PREVIEW SECTION -->
+        <!--RENDER BODY SECTION-->
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <!-- /END OF RENDER BODY SECTION -->
+        <!--FOOTER SECTION-->
+        <div class="eco--footer eco--pd--100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="widget footer_widget">
+                            <div class="eco--inner">
+                                <p>Copyright ©2022 All rights reserved</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="widget footer_widget">
+                            <div class="eco--inner">
+                                <h4>Label</h4>
+                                <ul>
+                                    <li><a href="#">Text 1</a></li>
+                                    <li><a href="#">Text 2</a></li>
+                                    <li><a href="#">Text 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="widget footer_widget">
+                            <div class="eco--inner">
+                                <h4>Label</h4>
+                                <ul>
+                                    <li><a href="#">Text 1</a></li>
+                                    <li><a href="#">Text 2</a></li>
+                                    <li><a href="#">Text 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="widget footer_widget">
+                            <div class="eco--inner">
+                                <h4>Label</h4>
+                                <ul>
+                                    <li>phone: <a href="tel: +313-450-4322">+380xx-xxxx-xxx</a></li>
+                                    <li>Email: <a href="mailto: eco@sitename.com">bookstore@gmail.com</a></li>
+                                    <li>Kyiv, Ukraine</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END OF FOOTER SECTION-->
+        <!--BUTTON UP SECTION-->
+        <div id="button-up">
+            <i class="fa fa-chevron-up"></i>
+        </div>
+        <!--/END OF BUTTON UP SECTION-->
+    </div>
+    <!-- /END OF SITE WRAP -->
+    <!--ALL JAVASCRIPT FILES-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="~/js/vendor/bootstrap.min.js"></script>
+    <script src="~/js/vendor/slick.min.js"></script>
+    <script src="~/js/vendor/magnific.popup.min.js"></script>
+    <script src="~/js/vendor/ajaxchimp.min.js"></script>
+    <script src="~/js/vendor/sweet.alert.min.js"></script>
+    <script src="~/js/vendor/particle.min.js"></script>
+    <script src="~/js/particle.config.js"></script>
+    <script src="~/js/vendor/slicknav.min.js"></script>
+    <script src="~/js/active.js"></script>
+    <script>
+        $('a[href^="#"]').click(function () {
+            let anchor = $(this).attr('href');
+            $('html, body').animate({
+                scrollTop: $(anchor).offset().top
+            }, 800);
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var button = $('#button-up');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 300) {
+                    button.fadeIn();
+                } else {
+                    button.fadeOut();
+                }
+            });
+            button.on('click', function () {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+        });
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

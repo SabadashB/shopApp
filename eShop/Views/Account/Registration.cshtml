@@ -1,0 +1,43 @@
+﻿@model eShop.ViewModels.RegistrationViewModel
+
+@{
+    ViewBag.Title = "Реєстрація";
+    Layout = "_LoginLayout";
+}
+
+<div class="row">
+    <div class="col-md-5 eco--home--height--1">
+        <div class="eco--home--content--3">
+            <div class="eco--sec--title--white eco--small">
+                <span>Lorem ipsum dolor sit amet</span>
+                <h1>Lorem ipsum<br>dolor sit amet.</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-md-offset-1 eco--home--height--1">
+        <form asp-action="Registration" asp-controller="Account" method="post" enctype="multipart/form-data" class="eco--mc--form2">
+            <div class="eoc--home--form ">
+                <h3>Registration</h3>
+                <div class="form-group row">
+                    <input asp-for="@Model.UserName" placeholder="Name" type="text" class="form-control required">
+                    <span asp-validation-for="UserName"></span>
+                </div>
+                <div class="form-group row">
+                    <input asp-for="@Model.Email" placeholder="Email" type="text" class="form-control required">
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group row">
+                    <input asp-for="@Model.Password" placeholder="Password" type="password" class="form-control required">
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <button type="submit">Registration</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

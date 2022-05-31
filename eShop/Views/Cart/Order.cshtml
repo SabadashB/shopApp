@@ -1,0 +1,60 @@
+﻿@model eShop.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "Оформити замовлення";
+    Layout = "_LoginLayout";
+}
+
+<div class="row">
+    @if (ViewBag.Cart == null || ViewBag.Cart.Count == 0)
+    {
+        <div class="col-md-5 eco--home--height--1">
+            <div class="eco--home--content--3">
+                <div class="eco--sec--title--white eco--small">
+                    <h1>Нажаль відсутні<br>книги для замовлення</h1>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+            <div class="col-md-5 eco--home--height--1">
+                <div class="eco--home--content--3">
+                    @foreach (var item in ViewBag.Cart)
+                    {
+                        <div class="eco--sec--title--white eco--small">
+                            <h1>@item.Product.Name</h1>
+                            <span>У кількості - @item.Quantity шт, ціна - @(item.Product.Price * item.Quantity) UAH</span>
+                        </div>
+                    }
+                    <h1>Усього до сплати <br> @ViewBag.Total UAH</h1>
+                </div>
+            </div>
+    <div class="col-md-6 col-md-offset-1 eco--home--height--1">
+            <form asp-action="Order" asp-controller="Cart" class="eco--mc--form2">
+                <div class="eoc--home--form ">
+                    <h3>Оформити замовлення</h3>
+                    <div class="form-group row">
+                        <input asp-for="CustomerName" type="text" class="form-control" placeholder="Прізвище Ім'я По батькові">
+                        <span asp-validation-for="CustomerName"></span>
+                    </div>
+                    <div class="form-group row">
+                        <input asp-for="Address" type="text" class="form-control" placeholder="Адреса">
+                        <span asp-validation-for="Address"></span>
+                    </div>
+                    <div class="form-group row">
+                        <input asp-for="PhoneNumber" id="phone-mask" type="text" class="form-control" placeholder="Телефон">
+                        <span asp-validation-for="PhoneNumber"></span>
+                    </div>
+                    <button type="submit">Замовити</button>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    @{
+        await  Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,167 @@
+﻿@model Product
+
+@{ ViewBag.Title = "Деталі книги";
+                Layout = "_MainLayout"; }
+
+<div class="eco--home--area--1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                <div class="eco--home--content--1">
+                    <div class="eco--sec--title">
+                        <span>Пропонуємо Вашій увазі</span>
+                        <h1>@Model.Name</h1>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="eco--home--image--1">
+            <img src="~/@Model.Image" alt="come img" width="795" height="690">
+        </div>
+        @if (User.IsInRole("admin"))
+        {
+            <a class="eco--btn eco--mt50" asp-action="Edit" asp-controller="Product" asp-route-id="@Model.Id">Змінити</a><br /><br />
+            <button class="eco--btn" data-toggle="modal" data-target="#delete-@Model.Id">Видалити</button>}
+    </div>
+</div>
+<div class="eco--faq--area--1 eco--pd--100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="eco--feature--1">
+                    <div class="eco--single--feature--1">
+                        <span class="eco--feature--left">Опис</span>
+                        <div class="eco--feature--right">
+                            <br />
+                            <h4>@Model.LongDesc</h4>
+                        </div>
+                    </div>
+                    <div class="eco--single--feature--1">
+                        <span class="eco--feature--left">Ціна</span>
+                        <div class="eco--feature--right">
+                            <br />
+                            <h4>@Model.Price UAH</h4>
+                        </div>
+                    </div>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+            <div class="text-center eco--mt50"><button onclick="addCart(@Model.Id)" class="eco--btn">Додати в кошик</button></div>}
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+            <div class="text-center eco--mt50">
+                <a asp-controller="Account" asp-action="Login">Для замовлення необхідно увійти до особистого кабінету!</a><br />
+                <a asp-controller="Account" asp-action="Login" class="eco--btn">Увійти</a>
+            </div>
+                }
+                
+            </div>
+            </div>
+    </div>
+</div>
+
+<!-- Modal for delete confirm -->
+<div class="modal fade" id="delete-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ви дійсно хочете видалити книгу?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    <input type="submit" class="btn btn-danger" value="Видалити" />
+                </form>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Закрити</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="success-message">
+    <div class="popup">
+        <h2 class="text-center">Успішно додано!</h2>
+    </div>
+</div>
+
+<style>
+    .popup {
+        position: absolute;
+        top: 40%;
+        left: 0;
+        right: 0;
+        width: 60%;
+        margin: auto;
+
+        height: 100px;
+        color: white;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        line-height: 46px;
+        text-align: center;
+        padding: 0 30px;
+        border-radius: 30px;
+        color: #ffffff;
+        border: 2px solid #ffffff;
+        box-shadow: 0 0 18px 10px rgb(0 0 0 / 7%);
+        min-height: 20px;
+    }
+
+    #success-message {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.56);
+        z-index: 999 !important;
+        background: rgba(40, 69, 113, 0.4);
+    }
+
+    #success-message {
+        display: none;
+    }
+</style>
+
+@section Scripts{
+    <script>
+    function addCart(prop)
+         {
+        jQuery('#success-message').show('normal', function () {
+            setTimeout(function () { jQuery("#success-message").hide('slow'); }, 600);
+        });
+            $.ajax
+            ({
+              type: 'get',
+              url:  '@Url.Action("AddToCart", "Cart")?id=' +prop,
+              success: function ()
+               {
+                 $.ajax
+                    ({
+                        type: 'get',
+                        url:  '@Url.Action("CartState", "Cart")',
+                        success: function (res)
+                        {
+                            console.log("res",res);
+                            if(res>0)
+                            {
+                                $('#my-cart').html(res).addClass("red-number");
+
+                            }
+                            else{
+                                $('#my-cart').empty().removeClass("red-number");
+                            }
+
+                        }
+                    });
+               }
+            })
+         }
+    </script>
+
+}
