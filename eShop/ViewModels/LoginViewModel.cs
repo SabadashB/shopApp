@@ -5,7 +5,7 @@ namespace eShop.ViewModels
 {
     public class LoginViewModel
     {
-        [Remote("CheckRegisterEmail","Validation",ErrorMessage = "Користувач ще не зареестрований!")]
+        [Remote("CheckRegisterEmail","Validation",ErrorMessage = "Користувач не зареестрований!")]
         [Required(ErrorMessage = "Не вказаний Email")]
         public string Email { get; set; }
    

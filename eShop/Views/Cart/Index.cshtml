@@ -19,17 +19,17 @@
             {
                 <div class="text-center">
                     <h2>Нажаль кошик порожній</h2><br />
-                    <a class="eco--btn" asp-action="Books" asp-controller="Product">Перейти до книжок</a>
+                    <a class="eco--btn" asp-action="Index" asp-controller="Product">Перейти до книжок</a>
                 </div>
             }
             else
             {
                 <table id="cart-res" class="table">
                     <tr>
-                        <th class="eco--title"><h2>Книга</h2></th>
-                        <th><h2>Кількість</h2></th>
-                        <th><h2>Ціна</h2></th>
-                        <th><h2>Сума</h2></th>
+                        <th class="eco--title"><h4>Книга</h4></th>
+                        <th><h4>Кількість</h4></th>
+                        <th><h4>Ціна</h4></th>
+                        <th><h4>Сума</h4></th>
 
                     </tr>
                     @foreach (var item in ViewBag.cart)
@@ -59,7 +59,7 @@
 
                 </table>
                 <div class="text-center eco--mt50">
-                    <a class="eco--btn" asp-action="Books" asp-controller="Product">Повернутися до книжок</a>
+                    <a class="eco--btn" asp-action="Index" asp-controller="Product">Повернутися до книжок</a>
                     @if (ViewBag.cart.Count > 0)
                     {
                         <a class="eco--btn" asp-controller="Cart" asp-action="Order">Оформити замовлення</a>
@@ -70,32 +70,8 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
 @section Scripts
 {
-
-    <script>
-    function currentState() {
-        $.ajax
-         ({
-             type: 'get',
-             url:  '@Url.Action("CartState", "Cart")',
-              success: function (res)
-               {
-                 if(res>0)
-                    { $('#my-cart').html(res).addClass("red-number"); }
-                 else{ $('#my-cart').empty().removeClass("red-number"); }
-               }
-         });
-    }
-    </script>
     <script>
        function Decrease(prop)
           {
@@ -103,9 +79,9 @@
               type: "GET",
               url:  '@Url.Action("Remove", "Cart")?id=' +prop,
               async: false }).responseText;
-              $("#cart-table-res").html(result);
-           currentState();
+           $("#cart-table-res").html(result);
            window.location.reload();
+           currentState();
           }
     </script>
     <script>
@@ -116,9 +92,9 @@
                     url:  '@Url.Action("AddToCart", "Cart")?id=' +prop,
                       async: false
                         }).responseText;
-                         $("#cart-table-res").html(result);
-               currentState();
+               $("#cart-table-res").html(result);
                window.location.reload();
+               currentState();
               }
     </script>
 }

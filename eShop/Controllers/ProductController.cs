@@ -33,12 +33,6 @@ namespace eShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Books()
-        {
-            return View(_db.Products);
-        }
-
-        [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
@@ -67,7 +61,7 @@ namespace eShop.Controllers
 
                 await _db.Products.AddAsync(product);
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Books");
+                return RedirectToAction("Index");
             }
 
             return View(model);
@@ -119,7 +113,7 @@ namespace eShop.Controllers
 
                 _db.Attach(product).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Books");
+                return RedirectToAction("Index");
             }
 
             return View(model);
@@ -148,7 +142,7 @@ namespace eShop.Controllers
             }
             _db.Entry(product).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            return RedirectToAction("Books");
+            return RedirectToAction("Index");
         }
 
 
@@ -157,7 +151,7 @@ namespace eShop.Controllers
         {
             if (string.IsNullOrEmpty(search))
             {
-                ViewBag.Error = "Введите имя  для поиска";
+                ViewBag.Error = "Введіть назву книги";
                 return PartialView("PartialView", _db.Products.ToList());
             }
 
@@ -166,7 +160,7 @@ namespace eShop.Controllers
                  .Where(e => e.Name.Contains(search)).ToList();
             if (products.Count == 0)
             {
-                ViewBag.Error = "Совпадений не найдено";
+                ViewBag.Error = "Книгу не знайдено";
             }
 
             return PartialView("PartialView", products);

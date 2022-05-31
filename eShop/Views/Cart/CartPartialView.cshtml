@@ -4,16 +4,16 @@
 }
 @if (Model.Count == 0)
 {
-    <p>Корзина пуста</p>
+    <p>Кошик порожній</p>
 }
 else
 {
     <table id="cart-res"  class="table">
         <tr>
-            <th>Товар</th>
-            <th>Кол-во</th>
-            <th>Цена</th>
-            <th>Сумма</th>
+            <th>Книга</th>
+            <th>Кількість</th>
+            <th>Ціна</th>
+            <th>Сума</th>
            
         </tr>
         @foreach (var item in Model)
@@ -44,5 +44,5 @@ else
 <br>
 @if (Model.Count > 0)
 {
-    <a class=" btn btn-success" asp-controller="Cart" asp-action="Order">Оформить заказ</a>
+    <a class=" btn btn-success" asp-controller="Cart" asp-action="Order">Оформити замовлення</a>
 }

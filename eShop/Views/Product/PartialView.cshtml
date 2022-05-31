@@ -1,11 +1,11 @@
 ﻿@model List<Product>
 
-<div class="container mt-1">
+<div class="eco--sec--title eco--small text-center">
     @if (@ViewBag.Error == null)
     {
         @foreach (var product in @Model)
             {
-                <a asp-action="Detail" asp-controller="Product" asp-route-id="@product.Id" class="text-center"> @product.Name</a><br/>
+                <a asp-action="Detail" asp-controller="Product" asp-route-id="@product.Id" class="text-center"><span style="color:white"> @product.Name</span></a><br/>
             }
     }
     else

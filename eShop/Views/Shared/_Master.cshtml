@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<title>BookStore</title>-->
     <title>@ViewData["Title"] - BookStore</title>
     <!--ALL CSS FILES-->
     <link rel="shortcut icon" href="~/images/logo.png" type="image/png">
@@ -18,10 +17,8 @@
     <link rel="stylesheet" href="~/css/magnific.pupup.css">
     <link rel="stylesheet" href="~/css/sweet.alert.css">
     <link rel="stylesheet" href="~/css/slicknav.css">
-    <link rel="stylesheet" href="~/css/main.css"> <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/style.css">
-    
-
 </head>
 
 <body>
@@ -49,29 +46,13 @@
                             <nav class="eco--main--menu">
                                 <ul>
                                     <li class="current-menu-item"><a asp-action="Index" asp-controller="Product">Головна</a></li>
-                                    <li><a asp-action="Books" asp-controller="Product">Книги</a></li>
+                                    <li><a href="#books">Книги</a></li>
                                     <li><a href="#about">Про нас</a></li>
                                     <li><a href="#contact">Контакти</a></li>
                                     @if (User.IsInRole("admin"))
                                     {
                                         <li><a asp-action="Index" asp-controller="Order">Замовлення</a></li>
                                     }
-                                    <!--
-                                    <li>
-                                        <form class="form-inline my-2 my-lg-0">
-                                            <input id="search" type="search" class="search-input search-form" placeholder="Введите название товара " name="search" autocomplete="off" aria-label="Search">
-                                                <div class="popup-overlay" id="myModal">
-                                                    <div class="popup-content">
-                                                        <div class="scrollbar-3" id="style-4">
-                                                            <div class="force-overflow-2">
-                                                                <div id="result"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </form>
-                                    </li>
-                                    -->
                                 </ul>
                             </nav>
 
@@ -85,8 +66,6 @@
                                 {
                             <a class="eco--btn" asp-controller="Account" asp-action="Login">Увійти</a>
                                 }
-
-
                             </div>
                         </div>
                     </div>
@@ -106,7 +85,17 @@
                                 <h1>BookStore</h1>
                             </div>
                             <div class="preview_btn eco--mt50">
-                                <a href="#portfolio_preview" class="eco--btn eco--bordered smoothScroll">BestSellers</a>
+                                <form>
+                                    <div class="eco--newsletter--1">
+                                        <div class="eco--inner">
+                                            <input  id="search" type="search" name="search" autocomplete="off" aria-label="Search" placeholder="Введіть назву книги" required="">
+                                            <div class="popup-overlay" id="myModal">
+                                                <div id="result" class="col-md-10 col-md-offset-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -127,8 +116,8 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="eco--sec--title eco--small text-center">
-                            <span>Some information</span>
-                            <h1>About Us</h1>
+                            <span>Інформація</span>
+                            <h1>Про Нас</h1>
                         </div>
                     </div>
                 </div>
@@ -198,8 +187,8 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="eco--sec--title eco--small text-center">
-                            <span>Our</span>
-                            <h1>Contact</h1>
+                            <span>Наші</span>
+                            <h1>Контакти</h1>
                         </div>
                     </div>
                 </div>
@@ -287,7 +276,6 @@
     <!-- /END OF SITE WRAP -->
     <!--ALL JAVASCRIPT FILES-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!--<script src="~/js/jquery.min.js"></script>-->
     <script src="~/js/vendor/bootstrap.min.js"></script>
     <script src="~/js/vendor/slick.min.js"></script>
     <script src="~/js/vendor/magnific.popup.min.js"></script>
@@ -298,30 +286,10 @@
     <script src="~/js/vendor/slicknav.min.js"></script>
     <script src="~/js/active.js"></script>
     <script>
-$(function showItemNumbers() {
-    $.ajax
-    ({
-        type: 'get',
-        url:  '@Url.Action("CartState", "Cart")',
-        success: function (res)
-        {
-            if(res>0)
-                {
-                   $('#my-cart').html(res).addClass("red-number");
-                }
-            else{
-                    $('#my-cart').empty().removeClass("red-number");
-                }
-        }
-    });
-});
-    </script>
-    <script>
-
         $(document).ready(function() {
                  $("#search").keyup(function(event) {
                    search(event);
-                   $(".popup-overlay, .popup-content").addClass("active");
+                     $(".popup-overlay").addClass("row");
                  });
                  });
               function search(event) {
@@ -335,20 +303,14 @@ $(function showItemNumbers() {
                     }).responseText;
                          $("#result").html(result);
                   }
-             $('body').click(function (event)
-             {
-                if(!$(event.target).closest('#myModal').length && !$(event.target).is('#myModal')) {
-                   $(".popup-overlay, .popup-content").removeClass("active");
-                }
-             });
     </script>
 
     <script>
-        $('a[href^="#"]').click(function () { // #1
-            let anchor = $(this).attr('href'); // #2
-            $('html, body').animate({ // #3
-                scrollTop: $(anchor).offset().top // #4
-            }, 800); // #5
+        $('a[href^="#"]').click(function () {
+            let anchor = $(this).attr('href');
+            $('html, body').animate({
+                scrollTop: $(anchor).offset().top
+            }, 800);
         });
 
     </script>

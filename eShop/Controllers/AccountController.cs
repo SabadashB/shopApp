@@ -14,7 +14,6 @@ namespace eShop.Controllers
 {
     public class AccountController : Controller
     {
-        // GET
         private readonly ShopContext _db;
 
         public AccountController(ShopContext db)
@@ -44,7 +43,7 @@ namespace eShop.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     Password = model.Password,
-                    RoleId = 2
+                    RoleId = 3
                 };
 
 
@@ -55,11 +54,6 @@ namespace eShop.Controllers
 
             return View(model);
         }
-
-
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,17 +66,16 @@ namespace eShop.Controllers
                                               u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user);
 
                     return RedirectToAction("Index", "Product");
                 }
 
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Невірний логін та(або) пароль");
             }
 
             return View(model);
         }
-
 
         private async Task Authenticate(User user)
         {

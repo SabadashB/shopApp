@@ -61,7 +61,6 @@ namespace eShop.Controllers
             return PartialView("CartPartialView", cart);
          
         }
-
       
         public IActionResult Remove(int id)
         {
@@ -101,7 +100,6 @@ namespace eShop.Controllers
             }
             return -1;
         }
-        
         public int CartState()
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<Item>>("cart");

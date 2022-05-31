@@ -12,10 +12,12 @@ namespace eShop.ViewModels
         [Required(ErrorMessage = "Поле назва є обов'язковою для заповнення")]
         [Remote("NameLength", "Validation", ErrorMessage = "Назва має бути довшою за два символи")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Поле ціна обов'язково для заповнення")]
+        [Required(ErrorMessage = "Поле ціна обов'язкова для заповнення")]
         [Remote("CheckPrice", "Validation", ErrorMessage = "Ціна має бути більше 0")]
         public decimal Price { get; set; }
+        [Required(ErrorMessage = "Поле обов'язкове для заповнення")]
         public string ShortDesc { get; set; }
+        [Required(ErrorMessage = "Поле обов'язкове для заповнення")]
         public string LongDesc { get; set; }
         public IFormFile File { get; set; }
     }
