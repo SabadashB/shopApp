@@ -1,0 +1,71 @@
+﻿@model eShop.ViewModels.ProductViewModel
+
+@{ ViewBag.Title = "Змінити деталі";
+                Layout = "_MainLayout"; }
+
+<div class="row eco--pd--100">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="eco--sec--title eco--small text-center">
+            <span>Змінити</span>
+            <h1>Книгу</h1>
+        </div>
+    </div>
+</div>
+<div class="container border p-4">
+    <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
+        <input asp-for="@Model.Id" type="hidden" />
+        <div class="form-group row">
+            <div class="col-4">
+                <label for="">Назва</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="@Model.Name" type="text" class="form-control">
+                <span asp-validation-for="Name"></span>
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label for="">Ціна</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="@Model.Price" type="text" class="form-control required">
+                <span asp-validation-for="Price"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label for="">Короткий опис</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="@Model.ShortDesc" type="text" class="form-control required">
+                <span asp-validation-for="ShortDesc"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label for="">Повний опис</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="@Model.LongDesc" type="text" class="form-control required">
+                <span asp-validation-for="LongDesc"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label for="">Зображення</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="@Model.File" type="file">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 offset-4">
+                <button type="submit" class="btn btn-primary form-control">Зберегти</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

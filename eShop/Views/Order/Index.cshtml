@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Order>
+
+@{ ViewBag.Title = "Замовлення";
+    Layout = "_MainLayout";
+    }
+
+@{ if (@Model != null){
+<div class="row eco--pd--100">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="eco--sec--title eco--small text-center">
+            <span>Усі</span>
+            <h1>Замовлення</h1>
+        </div>
+    </div>
+</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Книга</th>
+                            <th scope="col">Кліент</th>
+                            <th scope="col">Телефон</th>
+                            <th scope="col">Адреса</th>
+                            <th scope="col">Сума</th>
+                            <th scope="col">К-сть</th>
+                            <th scope="col">Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in @Model)
+                        {
+        <tr>
+            <td>@t.Id</td>
+            <td>@t.Product.Name</td>
+            <td>@t.CustomerName</td>
+            <td>@t.PhoneNumber</td>
+            <td>@t.Address</td>
+            <td>@t.Product.Price UAH</td>
+            <td>@t.Quantity</td>
+            <td>@t.Date.ToShortDateString()</td>
+        </tr>
+        }
+                    </tbody>
+                </table> 
+}else{
+<div class="col-md-5 eco--home--height--1">
+    <div class="eco--home--content--3">
+        <div class="eco--sec--title--white eco--small">
+            <h1>Нажаль замовлення відсутні</h1>
+        </div>
+    </div>
+</div> 
+}
+}
